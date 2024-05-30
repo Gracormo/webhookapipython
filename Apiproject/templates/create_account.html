@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <!-- Main container for the create account form -->
+  <div class="container">
+        <h1>Create Account</h1>
+        <!-- Form to create a new account, method is POST to submit data securely -->
+        <form method="POST" action="">
+            <!-- CSRF token for form security -->
+            {{ form_createaccount.csrf_token }}
+
+            <!-- Email field -->
+            <div>
+                {{ form_createaccount.email.label }}
+                <!-- Display errors if there are any for the email field -->
+                {% if form_createaccount.email.errors %}
+                    {{ form_createaccount.email }}
+                    {% for erro in form_createaccount.email.errors %}
+                        {{ erro }}
+                    {% endfor %}
+                {% else %}
+                    {{ form_createaccount.email }}
+                {% endif %}
+            </div>
+
+            <!-- Password field -->
+            <div>
+                {{ form_createaccount.password.label }}
+                <!-- Display errors if there are any for the password field -->
+                {% if form_createaccount.password.errors %}
+                    {{ form_createaccount.password }}
+                    {% for erro in form_createaccount.password.errors %}
+                        {{ erro }}
+                    {% endfor %}
+                {% else %}
+                    {{ form_createaccount.password }}
+                {% endif %}
+            </div>
+
+            <!-- Password confirmation field -->
+            <div>
+                {{ form_createaccount.password_confirmation.label }}
+                <!-- Display errors if there are any for the password confirmation field -->
+                {% if form_createaccount.password_confirmation.errors %}
+                    {{ form_createaccount.password_confirmation }}
+                    {% for erro in form_createaccount.password_confirmation.errors %}
+                        {{ erro }}
+                    {% endfor %}
+                {% else %}
+                    {{ form_createaccount.password_confirmation }}
+                {% endif %}
+            </div>
+
+            <!-- Token field -->
+            <div>
+                {{ form_createaccount.token.label }}
+                <!-- Display errors if there are any for the token field -->
+                {% if form_createaccount.token.errors %}
+                    {{ form_createaccount.token }}
+                    {% for erro in form_createaccount.token.errors %}
+                        {{ erro }}
+                    {% endfor %}
+                {% else %}
+                    {{ form_createaccount.token }}
+                {% endif %}
+            </div>
+
+            <!-- Submit button for the create account form -->
+            {{ form_createaccount.button_submit_createaccount }}
+        </form>
+
+        <!-- Link to go back to the login page -->
+      <a href="{{ url_for('login') }}"><button class="login-btn">Login</button></a>
+    </div>
+{% endblock %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <!-- Display a welcome message and the user's unique URL -->
+        <h1>Welcome to the Dashboard. Your unique URL is http://127.0.0.1:5000/{{ current_user.webhook_adress }}</h1>
+        <div class="container">
+            <!-- Logout button -->
+            <a href="{{ url_for('logout') }}"><button id="btn-logout">Logout</button></a>
+        </div>
+    </header>
+
+    <main>
+        <h2>User Data</h2>
+        <!-- Form for searching user data -->
+        <form method="POST" action="{{ url_for('main') }}">
+            <!-- CSRF token for form security -->
+            {{ form_search.csrf_token }}
+            {{ form_search.email.label }}
+            {{ form_search.email }}
+            {{ form_search.button_submit_search }}
+            {{ form_search.button_submit_clean }}
+        </form>
+
+        <!-- Table displaying webhook information -->
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>creation_date</th>
+                    <th>name</th>
+                    <th>email</th>
+                    <th>status</th>
+                    <th>value</th>
+                    <th>payment_term</th>
+                    <th>installments</th>
+                    <th>action</th>
+                    <th>webhook_user</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through webhook information and display each entry in a table row -->
+                {% for info in webhookinfos %}
+                <tr>
+                    <td>{{ info.creation_date }}</td>
+                    <td>{{ info.name }}</td>
+                    <td>{{ info.email }}</td>
+                    <td>{{ info.status }}</td>
+                    <td>{{ info.value }}</td>
+                    <td>{{ info.payment_term }}</td>
+                    <td>{{ info.installments }}</td>
+                    <td>{{ info.action }}</td>
+                    <td>{{ info.webhook_user }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

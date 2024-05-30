@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <!-- Main container for the login form -->
+    <div class="container">
+        <h1>Login</h1>
+        <!-- Form to log in, method is POST to submit data securely -->
+        <form method="POST" action="">
+            <!-- CSRF token for form security -->
+            {{ form_login.csrf_token }}
+
+            <!-- Email field -->
+            <div>
+                {{ form_login.email.label }}
+                <!-- Display errors if there are any for the email field -->
+                {% if form_login.email.errors %}
+                    {{ form_login.email }}
+                    {% for erro in form_login.email.errors %}
+                        {{ erro }}
+                    {% endfor %}
+                {% else %}
+                    {{ form_login.email }}
+                {% endif %}
+            </div>
+
+            <!-- Password field -->
+            <div>
+                {{ form_login.password.label }}
+                <!-- Display errors if there are any for the password field -->
+                {% if form_login.password.errors %}
+                    {{ form_login.password }}
+                    {% for erro in form_login.password.errors %}
+                        {{ erro }}
+                    {% endfor %}
+                {% else %}
+                    {{ form_login.password }}
+                {% endif %}
+            </div>
+
+            <!-- Submit button for the login form -->
+            {{ form_login.button_submit_login }}
+        </form>
+
+        <!-- Link to go to the create account page -->
+        <a href="{{ url_for('create_account') }}"><button class="create-account-btn">Create Account</button></a>
+    </div>
+{% endblock %}
