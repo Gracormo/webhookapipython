@@ -3,6 +3,7 @@ from flask import render_template, url_for, request, redirect, jsonify
 from Apiproject.forms import FormLogin, FormCreateAccount, FormSearch
 from Apiproject.models import User, Webhookinfo
 from flask_login import login_user, logout_user, current_user, login_required
+import json
 
 # Route to handle the main dashboard page
 @app.route('/main', methods=['GET', 'POST'])
@@ -64,16 +65,45 @@ def logout():
 # Route to handle incoming webhook data
 @app.route('/<webhook_adress>', methods=['POST'])
 def receive_data(webhook_adress):
-    global action
     user = User.query.filter_by(webhook_adress=webhook_adress).first()
     if not user:
         return jsonify({'error': 'Invalid webhook token'}), 404
 
-    data = request.get_json()
-    # Extract data from JSON
+    # Initialize the data variable
+    data = {}
+
+    # Check if the request content type is JSON
+    if request.is_json:
+        data = request.get_json()
+    # Check if the request content type is form-data or x-www-form-urlencoded
+    elif request.form:
+        data = request.form.to_dict()
+    # Fallback to treating the data as plain text
+    elif request.data:
+        try:
+            data = json.loads(request.data.decode('utf-8'))
+            if isinstance(data, str):
+                return jsonify({'error': 'Unsupported content type or invalid JSON'}), 415
+        except ValueError:
+            return jsonify({'error': 'Unsupported content type or invalid JSON'}), 415
+    else:
+        return jsonify({'error': 'Unsupported content type'}), 415
+
+    # Ensure data is a dictionary before proceeding
+    if not isinstance(data, dict):
+        return jsonify({'error': 'Data format is invalid'}), 400
+
+    # Extract data from the dictionary
     name = data.get('nome')
     email = data.get('email')
     status = data.get('status')
+    value = data.get('valor')
+    payment_term = data.get('forma_pagamento')
+    installments = data.get('parcelas')
+
+    if not all([name, email, status, value, payment_term, installments]):
+        return jsonify({'error': 'Missing required fields'}), 400
+
     # Determine action based on status
     if status == 'aprovado':
         action = "grant him access to the course"
@@ -83,9 +113,7 @@ def receive_data(webhook_adress):
         action = "send payment declined message"
     else:
         action = ''
-    value = data.get('valor')
-    payment_term = data.get('forma_pagamento')
-    installments = data.get('parcelas')
+
     webhook_user = user.webhook_adress
 
     # Create a new instance of Webhookinfo
