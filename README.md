@@ -9,29 +9,6 @@ This project is a Flask-based API that receives information from a webhook simul
 - **Unique User URLs**: Each user has a unique URL to view their data.
 - **Data Search and Display**: Users can search for specific data using email and view it in a tabular format.
 
-## Project Structure
-.
-├── Apiproject/
-│ ├── static/
-│ │ └── styles.css
-│ ├── templates/
-│ │ ├── base.html
-│ │ ├── create_account.html
-│ │ ├── login.html
-│ │ └── main.html
-│ ├── init.py
-│ ├── forms.py
-│ ├── models.py
-│ ├── routes.py
-├── instance/
-│ └── database.db
-├── venv/
-│ └── (virtual environment files)
-├── main.py
-├── Procfile
-├── requirements.txt
-
-
 ## Usage
 
 ### User Registration
@@ -82,4 +59,4 @@ If you want to contribute to this project, please fork the repository and create
 This project is licensed under the MIT License.
 
 ## Contact
-For any questions or issues, please contact [your-email@example.com].
+For any questions or issues, you can find me in my [Linkedin](https://www.linkedin.com/in/gracorabello/)
