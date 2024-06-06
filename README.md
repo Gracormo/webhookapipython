@@ -2,6 +2,7 @@
 
 ## Project Overview
 This project is a Flask-based API that receives information from a webhook simulator, saves it to a database, and processes the data depending on the payment status. The project includes a login system, a unique URL for each user, and a page with email search options for the received information.
+*Read the article on [Medium](https://medium.com/@gracorabello/building-a-webhook-api-with-flask-a-step-by-step-guide-4a9f0cbb7939).
 
 ## Features
 - **User Authentication**: Secure login and account creation using CSRF tokens and form validation.
